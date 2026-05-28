@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class BlogCategoriesTableSeeder extends Seeder
 {
@@ -17,7 +16,6 @@ class BlogCategoriesTableSeeder extends Seeder
         $categories = [];
 
         $cName = 'Без категорії';
-
         $categories[] = [
             'title'     => $cName,
             'slug'      => Str::slug($cName),
@@ -25,9 +23,7 @@ class BlogCategoriesTableSeeder extends Seeder
         ];
 
         for ($i = 1; $i <= 10; $i++) {
-
             $cName = 'Категорія #'.$i;
-
             $parentId = ($i > 4) ? rand(1, 4) : 1;
 
             $categories[] = [
