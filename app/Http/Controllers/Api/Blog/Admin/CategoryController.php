@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api\Blog\Admin;
 
+use App\Http\Requests\BlogCategoryCreateRequest;
+use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Models\BlogCategory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class CategoryController extends BaseController
@@ -21,28 +22,25 @@ class CategoryController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BlogCategoryCreateRequest $request)
     {
-        $data = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:blog_categories,slug'],
-            'parent_id' => ['nullable', 'integer', 'min:0'],
-            'description' => ['nullable', 'string'],
-        ]);
+        $data = $request->input();
 
         if (empty($data['slug'])) {
             $data['slug'] = $this->makeUniqueSlug($data['title']);
         }
 
-        $data['parent_id'] = $data['parent_id'] ?? 1;
+        $item = (new BlogCategory())->create($data);
 
-        $item = BlogCategory::create($data);
+        if ($item) {
+            return [
+                'success' => true,
+                'message' => 'Успішно збережено',
+                'data' => $item,
+            ];
+        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Успішно створено',
-            'data' => $item,
-        ], 201);
+        return ['message' => 'Помилка збереження'];
     }
 
     /**
@@ -56,19 +54,14 @@ class CategoryController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BlogCategoryUpdateRequest $request, string $id)
     {
         $item = BlogCategory::find($id);
         if (empty($item)) {
             return ['message' => "Запис id=[{$id}] не знайдено"];
         }
 
-        $data = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:blog_categories,slug,'.$id],
-            'parent_id' => ['nullable', 'integer', 'min:0'],
-            'description' => ['nullable', 'string'],
-        ]);
+        $data = $request->input();
 
         if (empty($data['slug'])) {
             $data['slug'] = $this->makeUniqueSlug($data['title'], $item->id);
