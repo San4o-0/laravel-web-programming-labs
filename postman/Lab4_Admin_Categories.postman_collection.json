@@ -1,0 +1,318 @@
+{
+  "info": {
+    "_postman_id": "d9c75222-6f62-47f7-a842-lab4admincategories",
+    "name": "Lab 4 Admin Categories",
+    "description": "Requests for testing Laravel Lab 4 admin category endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Admin Categories",
+      "item": [
+        {
+          "name": "GET categories page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/blog/categories",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blog",
+                "categories"
+              ]
+            },
+            "description": "Returns paginated blog categories, 5 records per page."
+          },
+          "response": [
+            {
+              "name": "200 paginated categories",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/blog/categories",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "blog",
+                    "categories"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"current_page\": 1,\n  \"data\": [\n    {\n      \"id\": 1,\n      \"parent_id\": 0,\n      \"slug\": \"bez-kategoriyi\",\n      \"title\": \"Без категорії\",\n      \"description\": null,\n      \"created_at\": null,\n      \"updated_at\": null,\n      \"deleted_at\": null\n    }\n  ],\n  \"per_page\": 5,\n  \"total\": 11\n}"
+            }
+          ]
+        },
+        {
+          "name": "POST create category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Postman Category\",\n  \"slug\": \"postman-category\",\n  \"parent_id\": 1,\n  \"description\": \"Created from Postman request\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/blog/categories",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blog",
+                "categories"
+              ]
+            },
+            "description": "Creates a new blog category. If slug is empty, Laravel generates it from title."
+          },
+          "response": [
+            {
+              "name": "201 category created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Postman Category\",\n  \"slug\": \"postman-category\",\n  \"parent_id\": 1,\n  \"description\": \"Created from Postman request\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/admin/blog/categories",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "blog",
+                    "categories"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Успішно створено\",\n  \"data\": {\n    \"title\": \"Postman Category\",\n    \"slug\": \"postman-category\",\n    \"parent_id\": 1,\n    \"description\": \"Created from Postman request\",\n    \"id\": 12\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "PATCH update category",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Category From Postman\",\n  \"slug\": \"updated-category-from-postman\",\n  \"parent_id\": 1,\n  \"description\": \"Updated from Postman request\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/blog/categories/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blog",
+                "categories",
+                "1"
+              ]
+            },
+            "description": "Updates an existing blog category by id."
+          },
+          "response": [
+            {
+              "name": "200 category updated",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Updated Category From Postman\",\n  \"slug\": \"updated-category-from-postman\",\n  \"parent_id\": 1,\n  \"description\": \"Updated from Postman request\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/admin/blog/categories/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "blog",
+                    "categories",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Успішно збережено\",\n  \"data\": {\n    \"id\": 1,\n    \"parent_id\": 1,\n    \"slug\": \"updated-category-from-postman\",\n    \"title\": \"Updated Category From Postman\",\n    \"description\": \"Updated from Postman request\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "PATCH update missing category",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Missing Category\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/blog/categories/9999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blog",
+                "categories",
+                "9999"
+              ]
+            },
+            "description": "Shows the response when the category id does not exist."
+          },
+          "response": [
+            {
+              "name": "200 category not found message",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Missing Category\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/admin/blog/categories/9999",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "blog",
+                    "categories",
+                    "9999"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Запис id=[9999] не знайдено\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost",
+      "type": "string"
+    }
+  ]
+}
