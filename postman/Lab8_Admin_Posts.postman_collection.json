@@ -1,0 +1,83 @@
+{
+  "info": {
+    "_postman_id": "f9e32844-1f33-4be2-99b4-lab8adminposts",
+    "name": "Lab 8 Admin Blog Posts",
+    "description": "Request for testing admin blog posts output.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Admin Posts",
+      "item": [
+        {
+          "name": "GET admin posts page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/blog/posts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blog",
+                "posts"
+              ]
+            },
+            "description": "Returns paginated blog posts for admin panel. The repository selects only id, title, slug, is_published, published_at, user_id, and category_id."
+          },
+          "response": [
+            {
+              "name": "200 paginated posts",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/blog/posts",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "blog",
+                    "posts"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"current_page\": 1,\n  \"data\": [\n    {\n      \"id\": 100,\n      \"title\": \"Example generated post title\",\n      \"slug\": \"example-generated-post-title\",\n      \"is_published\": 1,\n      \"published_at\": \"2026-03-15T10:00:00.000000Z\",\n      \"user_id\": 2,\n      \"category_id\": 4\n    }\n  ],\n  \"per_page\": 25,\n  \"total\": 100\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost",
+      "type": "string"
+    }
+  ]
+}
