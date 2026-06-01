@@ -6,7 +6,6 @@ use App\Http\Requests\BlogCategoryCreateRequest;
 use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Models\BlogCategory;
 use App\Repositories\BlogCategoryRepository;
-use Illuminate\Support\Str;
 
 class CategoryController extends BaseController
 {
@@ -31,11 +30,6 @@ class CategoryController extends BaseController
     public function store(BlogCategoryCreateRequest $request)
     {
         $data = $request->input();
-
-        if (empty($data['slug'])) {
-            $data['slug'] = $this->makeUniqueSlug($data['title']);
-        }
-
         $item = (new BlogCategory())->create($data);
 
         if ($item) {
@@ -68,11 +62,6 @@ class CategoryController extends BaseController
         }
 
         $data = $request->input();
-
-        if (empty($data['slug'])) {
-            $data['slug'] = $this->makeUniqueSlug($data['title'], $item->id);
-        }
-
         $result = $item->update($data);
 
         if ($result) {
@@ -92,25 +81,5 @@ class CategoryController extends BaseController
     public function destroy(string $id)
     {
         //
-    }
-
-    private function makeUniqueSlug(string $title, ?int $ignoreId = null): string
-    {
-        $slug = Str::slug($title);
-        $slug = $slug !== '' ? $slug : 'category';
-        $baseSlug = $slug;
-        $counter = 1;
-
-        while (
-            BlogCategory::query()
-                ->when($ignoreId, fn ($query) => $query->where('id', '!=', $ignoreId))
-                ->where('slug', $slug)
-                ->exists()
-        ) {
-            $slug = $baseSlug.'-'.$counter;
-            $counter++;
-        }
-
-        return $slug;
     }
 }
