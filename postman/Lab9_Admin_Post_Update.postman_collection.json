@@ -1,0 +1,205 @@
+{
+  "info": {
+    "_postman_id": "a96d2c46-9c0f-48aa-a395-lab9postupdate",
+    "name": "Lab 9 Admin Blog Post Update",
+    "description": "Requests for testing admin blog post update with validation, relationships, and publish date logic.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Admin Post Update",
+      "item": [
+        {
+          "name": "GET admin posts with category and user",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/blog/posts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blog",
+                "posts"
+              ]
+            },
+            "description": "Returns posts with related category and user loaded by BlogPostRepository."
+          }
+        },
+        {
+          "name": "PATCH valid post",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Blog Post From Postman\",\n  \"slug\": \"\",\n  \"excerpt\": \"Updated short post description from Postman.\",\n  \"content_raw\": \"Updated main post content from Postman request.\",\n  \"category_id\": 1,\n  \"is_published\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/blog/posts/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blog",
+                "posts",
+                "1"
+              ]
+            },
+            "description": "Updates post id 1. Empty slug is generated from title. If the post was not published and is_published is true, published_at is set to current time."
+          },
+          "response": [
+            {
+              "name": "200 post updated",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Updated Blog Post From Postman\",\n  \"slug\": \"\",\n  \"excerpt\": \"Updated short post description from Postman.\",\n  \"content_raw\": \"Updated main post content from Postman request.\",\n  \"category_id\": 1,\n  \"is_published\": true\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/admin/blog/posts/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "blog",
+                    "posts",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Успішно збережено\",\n  \"data\": {\n    \"id\": 1,\n    \"title\": \"Updated Blog Post From Postman\",\n    \"slug\": \"updated-blog-post-from-postman\",\n    \"category_id\": 1,\n    \"is_published\": true,\n    \"category\": {\n      \"id\": 1,\n      \"title\": \"Без категорії\"\n    },\n    \"user\": {\n      \"id\": 2,\n      \"name\": \"Автор\"\n    }\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "PATCH invalid post",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Bad\",\n  \"content_raw\": \"no\",\n  \"category_id\": 9999\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/blog/posts/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blog",
+                "posts",
+                "1"
+              ]
+            },
+            "description": "Returns validation errors: title is too short, content_raw is too short, category_id does not exist."
+          },
+          "response": [
+            {
+              "name": "422 validation errors",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Bad\",\n  \"content_raw\": \"no\",\n  \"category_id\": 9999\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/admin/blog/posts/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "blog",
+                    "posts",
+                    "1"
+                  ]
+                }
+              },
+              "status": "Unprocessable Content",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"The title field must be at least 5 characters. (and 2 more errors)\",\n  \"errors\": {\n    \"title\": [\n      \"The title field must be at least 5 characters.\"\n    ],\n    \"content_raw\": [\n      \"The content raw field must be at least 5 characters.\"\n    ],\n    \"category_id\": [\n      \"The selected category id is invalid.\"\n    ]\n  }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost",
+      "type": "string"
+    }
+  ]
+}
