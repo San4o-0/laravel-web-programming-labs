@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\Blog\Admin;
 
+use App\Http\Requests\BlogPostCreateRequest;
 use App\Http\Requests\BlogPostUpdateRequest;
+use App\Models\BlogPost;
 use App\Repositories\BlogCategoryRepository;
 use App\Repositories\BlogPostRepository;
-use Illuminate\Http\Request;
 
 class PostController extends BaseController
 {
@@ -29,9 +30,20 @@ class PostController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BlogPostCreateRequest $request)
     {
-        //
+        $data = $request->input();
+        $item = (new BlogPost())->create($data);
+
+        if ($item) {
+            return [
+                'success' => true,
+                'message' => 'Успішно збережено',
+                'data' => $item->fresh(['category:id,title', 'user:id,name']),
+            ];
+        }
+
+        return ['message' => 'Помилка збереження'];
     }
 
     /**
@@ -63,6 +75,15 @@ class PostController extends BaseController
      */
     public function destroy(string $id)
     {
-        //
+        $result = BlogPost::destroy($id);
+
+        if ($result) {
+            return [
+                'success' => true,
+                'message' => 'Успішно видалено',
+            ];
+        }
+
+        return ['message' => 'Помилка видалення'];
     }
 }
