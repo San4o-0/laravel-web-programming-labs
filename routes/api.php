@@ -32,3 +32,11 @@ Route::group($groupData, function () {
         ->except(['show'])
         ->names('blog.admin.posts');
 });
+
+Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'digging_deeper'], function () {
+    Route::get('process-video', 'DiggingDeeperController@processVideo')
+        ->name('digging_deeper.processVideo');
+
+    Route::get('prepare-catalog', 'DiggingDeeperController@prepareCatalog')
+        ->name('digging_deeper.prepareCatalog');
+});

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GenerateCatalog\GenerateCatalogMainJob;
+use App\Jobs\ProcessVideoJob;
 use App\Models\BlogPost;
 use Carbon\Carbon;
 
@@ -131,5 +133,20 @@ class DiggingDeeperController extends Controller
             'sortedAscCollection' => $sortedAscCollection->values(),
             'sortedDescCollection' => $sortedDescCollection->values(),
         ];
+    }
+
+    public function processVideo()
+    {
+        ProcessVideoJob::dispatch();
+    }
+
+    /**
+     * @link http://localhost:8000/digging_deeper/prepare-catalog
+     *
+     * php artisan queue:listen --queue=generate-catalog --tries=3 --delay=10
+     */
+    public function prepareCatalog()
+    {
+        GenerateCatalogMainJob::dispatch();
     }
 }
